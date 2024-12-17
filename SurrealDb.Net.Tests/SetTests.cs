@@ -6,9 +6,12 @@ namespace SurrealDb.Net.Tests;
 public class SetTests
 {
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task ShouldSetParam(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task ShouldSetParam(string connectionString)
     {
         SurrealDbResponse? response = null;
 
@@ -17,8 +20,7 @@ public class SetTests
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -30,14 +32,14 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set("status", "DRAFT");
 
             {
                 string query = "SELECT * FROM post WHERE status == $status;";
-                response = await client.RawQuery(query);
+                response = (await client.RawQuery(query)).EnsureAllOks();
             }
         };
 
@@ -55,17 +57,19 @@ public class SetTests
     }
 
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task KeyShouldNotBeNull(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task KeyShouldNotBeNull(string connectionString)
     {
         Func<Task> func = async () =>
         {
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -77,7 +81,7 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set(null!, "DRAFT");
@@ -89,17 +93,19 @@ public class SetTests
     }
 
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task KeyShouldNotBeEmpty(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task KeyShouldNotBeEmpty(string connectionString)
     {
         Func<Task> func = async () =>
         {
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -111,7 +117,7 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set(string.Empty, "DRAFT");
@@ -123,17 +129,19 @@ public class SetTests
     }
 
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task KeyShouldNotContainWhitepace(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task KeyShouldNotContainWhitepace(string connectionString)
     {
         Func<Task> func = async () =>
         {
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -145,7 +153,7 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set("st at us", "DRAFT");
@@ -157,9 +165,12 @@ public class SetTests
     }
 
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task KeyCanContainUnderscore(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task KeyCanContainUnderscore(string connectionString)
     {
         SurrealDbResponse? response = null;
 
@@ -168,8 +179,7 @@ public class SetTests
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -181,14 +191,14 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set("st_at_us", "DRAFT");
 
             {
                 string query = "SELECT * FROM post WHERE status == $st_at_us;";
-                response = await client.RawQuery(query);
+                response = (await client.RawQuery(query)).EnsureAllOks();
             }
         };
 
@@ -206,9 +216,12 @@ public class SetTests
     }
 
     [Theory]
-    [InlineData("http://127.0.0.1:8000")]
-    [InlineData("ws://127.0.0.1:8000/rpc")]
-    public async Task ComplexKeyShouldBeSurroundedWithBackticks(string url)
+    [InlineData("Endpoint=mem://")]
+    [InlineData("Endpoint=rocksdb://")]
+    [InlineData("Endpoint=surrealkv://")]
+    [InlineData("Endpoint=http://127.0.0.1:8000;User=root;Pass=root")]
+    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;User=root;Pass=root")]
+    public async Task ComplexKeyShouldBeSurroundedWithBackticks(string connectionString)
     {
         SurrealDbResponse? response = null;
 
@@ -217,8 +230,7 @@ public class SetTests
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator();
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
-            using var client = surrealDbClientGenerator.Create(url);
-            await client.SignIn(new RootAuth { Username = "root", Password = "root" });
+            using var client = surrealDbClientGenerator.Create(connectionString);
             await client.Use(dbInfo.Namespace, dbInfo.Database);
 
             {
@@ -230,14 +242,14 @@ public class SetTests
 
                 string query = fileContent;
 
-                await client.RawQuery(query);
+                (await client.RawQuery(query)).EnsureAllOks();
             }
 
             await client.Set("a.b@c.d", "DRAFT");
 
             {
                 string query = "SELECT * FROM post WHERE status == $`a.b@c.d`;";
-                response = await client.RawQuery(query);
+                response = (await client.RawQuery(query)).EnsureAllOks();
             }
         };
 

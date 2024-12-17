@@ -13,27 +13,66 @@ on:
       - '**.md'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    needs: [embedded-build]
+    runs-on: ubuntu-4cores
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Download embedded artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: embedded
+          path: ./rust-embedded/target/debug
 
-      - name: Download SurrealDB
-        run: curl --proto '=https' --tlsv1.2 -sSf https://install.surrealdb.com | sh
-
-      - name: Run SurrealDB root
-        run: surreal start --user root --pass root memory --auth --allow-guests &
-
-      - name: Setup dotnet 8.0
+      - name: Setup dotnet 9.0
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "9.0.x"
 
       - name: Install .NET tools
         run: dotnet tool restore
 
       - name: Check Formatting
         run: dotnet csharpier --check .
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+  test:
+    needs: [embedded-build]
+    runs-on: ubuntu-4cores
+    strategy:
+      matrix:
+        surrealdb_version: ["v1.5.5", "v2.0.4", "v2.1.2"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Download embedded artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: embedded
+          path: ./rust-embedded/target/debug
+
+      - name: Download SurrealDB
+        run: curl --proto '=https' --tlsv1.2 -sSf https://install.surrealdb.com | sh -s -- --version ${{ matrix.surrealdb_version }}
+
+      - name: Run SurrealDB root
+        run: |
+          if [ "${{ matrix.surrealdb_version }}" == "v1.5.5" ]; then
+            surreal start --user root --pass root memory --auth --allow-guests &
+          else
+            surreal start --user root --pass root memory --allow-guests &
+          fi
+
+      - name: Setup dotnet 9.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "9.0.x"
 
       - name: Install dependencies
         run: dotnet restore
@@ -64,6 +103,89 @@ jobs:
           DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Upload Coverage
+        if: matrix.surrealdb_version == 'v2.1.2'
         uses: codecov/codecov-action@v3
         with:
           directory: .coverage
+
+  embedded-build:
+    runs-on: ubuntu-4cores
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            rust-embedded
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build libraries
+        working-directory: ./rust-embedded
+        run: cargo build
+      
+      - name: Publish embedded artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: embedded
+          path: |
+            ./rust-embedded/target/debug/libsurreal_memory.so
+            ./rust-embedded/target/debug/libsurreal_rocksdb.so
+            ./rust-embedded/target/debug/libsurreal_surrealkv.so
+
+  cargo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            rust-embedded
+
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run check
+        working-directory: ./rust-embedded
+        run: cargo check --all
+
+      - name: Run tests
+        working-directory: ./rust-embedded
+        run: cargo test
+
+      - name: Run format
+        working-directory: ./rust-embedded
+        run: |
+          cargo check --all
+          cargo fix --allow-no-vcs
+
+      - name: Run lint
+        working-directory: ./rust-embedded
+        run: cargo clippy -- -Dwarnings
+
+  cargo-deny:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        manifests:
+          - ./rust-embedded/shared/Cargo.toml
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            rust-embedded
+
+      - uses: EmbarkStudios/cargo-deny-action@v1
+        with:
+          manifest-path: ${{ matrix.manifests }}
+      
