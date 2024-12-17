@@ -7,9 +7,7 @@ namespace SurrealDb.Net.Tests;
 public class ObjectPoolTests
 {
     [Theory]
-    [InlineData("Endpoint=http://127.0.0.1:8000;Serialization=JSON")]
     [InlineData("Endpoint=http://127.0.0.1:8000;Serialization=CBOR")]
-    [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;Serialization=JSON")]
     [InlineData("Endpoint=ws://127.0.0.1:8000/rpc;Serialization=CBOR")]
     public async Task ShouldCreateTwoDistinctEngines(string connectionString)
     {
@@ -59,8 +57,7 @@ public class ObjectPoolTests
         Func<Task> func = async () =>
         {
             await using var surrealDbClientGenerator = new SurrealDbClientGenerator().Configure(
-                connectionString,
-                ServiceLifetime.Scoped
+                connectionString
             );
             var dbInfo = surrealDbClientGenerator.GenerateDatabaseInfo();
 
@@ -130,7 +127,7 @@ public class ObjectPoolTests
                 {
                     Namespace = dbInfo.Namespace,
                     Database = dbInfo.Database,
-                    Scope = "user_scope",
+                    Access = "user_scope",
                     Username = "johndoe",
                     Email = "john.doe@example.com",
                     Password = "password123"
