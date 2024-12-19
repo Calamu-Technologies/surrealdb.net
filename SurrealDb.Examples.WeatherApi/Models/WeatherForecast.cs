@@ -1,11 +1,11 @@
-using SurrealDb.Net.Models;
+﻿using SurrealDb.Net.Models;
 
 namespace SurrealDb.Examples.WeatherApi.Models;
 
 /// <summary>
 /// Weather forecast model.
 /// </summary>
-public class WeatherForecast : Record
+public class WeatherForecast : Record<RecordId>
 {
     /// <summary>
     /// Date of the weather forecast.

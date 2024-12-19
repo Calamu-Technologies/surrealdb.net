@@ -3,7 +3,7 @@ using SurrealDb.Net.Models;
 
 namespace SurrealDb.Net.Benchmarks.Models;
 
-public class Post : Record
+public class Post : Record<RecordId>
 {
     public string? Title { get; set; }
     public string? Content { get; set; }

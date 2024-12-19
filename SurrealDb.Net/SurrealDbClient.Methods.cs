@@ -30,7 +30,7 @@ public abstract partial class BaseSurrealDbClient
     }
 
     public Task<T> Create<T>(T data, CancellationToken cancellationToken = default)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         return _engine.Create(data, cancellationToken);
     }
@@ -49,7 +49,7 @@ public abstract partial class BaseSurrealDbClient
         TData? data = default,
         CancellationToken cancellationToken = default
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         return _engine.Create<TData, TOutput>(recordId, data, cancellationToken);
     }
@@ -189,13 +189,13 @@ public abstract partial class BaseSurrealDbClient
         IEnumerable<T> data,
         CancellationToken cancellationToken = default
     )
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         return _engine.Insert(table, data, cancellationToken);
     }
 
     public Task<T> InsertRelation<T>(T data, CancellationToken cancellationToken = default)
-        where T : RelationRecord
+        where T : RelationRecord<RecordId>
     {
         return _engine.InsertRelation(data, cancellationToken);
     }
@@ -205,7 +205,7 @@ public abstract partial class BaseSurrealDbClient
         T data,
         CancellationToken cancellationToken = default
     )
-        where T : RelationRecord
+        where T : RelationRecord<RecordId>
     {
         return _engine.InsertRelation(table, data, cancellationToken);
     }
@@ -274,7 +274,7 @@ public abstract partial class BaseSurrealDbClient
         TMerge data,
         CancellationToken cancellationToken = default
     )
-        where TMerge : IRecord
+        where TMerge : IRecord<RecordId>
     {
         return _engine.Merge<TMerge, TOutput>(data, cancellationToken);
     }
@@ -587,7 +587,7 @@ public abstract partial class BaseSurrealDbClient
     }
 
     public Task<T> Update<T>(T data, CancellationToken cancellationToken = default)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         return _engine.Update(data, cancellationToken);
     }
@@ -597,7 +597,7 @@ public abstract partial class BaseSurrealDbClient
         TData data,
         CancellationToken cancellationToken = default
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         return _engine.Update<TData, TOutput>(recordId, data, cancellationToken);
     }
@@ -617,13 +617,13 @@ public abstract partial class BaseSurrealDbClient
         TData data,
         CancellationToken cancellationToken = default
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         return _engine.Update<TData, TOutput>(recordId, data, cancellationToken);
     }
 
     public Task<T> Upsert<T>(T data, CancellationToken cancellationToken = default)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         return _engine.Upsert(data, cancellationToken);
     }
@@ -633,7 +633,7 @@ public abstract partial class BaseSurrealDbClient
         TData data,
         CancellationToken cancellationToken = default
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         return _engine.Upsert<TData, TOutput>(recordId, data, cancellationToken);
     }
@@ -653,7 +653,7 @@ public abstract partial class BaseSurrealDbClient
         TData data,
         CancellationToken cancellationToken = default
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         return _engine.Upsert<TData, TOutput>(recordId, data, cancellationToken);
     }

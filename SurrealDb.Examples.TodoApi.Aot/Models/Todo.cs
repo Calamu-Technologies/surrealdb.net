@@ -3,7 +3,7 @@ using SurrealDb.Net.Models;
 
 namespace SurrealDb.Examples.TodoApi.Aot.Models;
 
-public class Todo : Record
+public class Todo : Record<RecordId>
 {
     public string? Title { get; set; }
     public DateOnly? DueBy { get; set; } = null;

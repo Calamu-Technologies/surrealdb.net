@@ -7,25 +7,27 @@ namespace SurrealDb.Net.Models;
 /// <summary>
 /// The abstract class for Record type.
 /// </summary>
-public abstract class Record : IRecord
+public abstract class Record<T> : IRecord<T>
+    where T : RecordId
 {
     /// <summary>
     /// The id of the record
     /// </summary>
     [CborProperty("id")]
     [CborIgnoreIfDefault]
-    public RecordId? Id { get; set; }
+    public T? Id { get; set; }
 }
 
 /// <summary>
 /// The interface for Record type.
 /// </summary>
-public interface IRecord
+public interface IRecord<T>
+    where T : RecordId
 {
     /// <summary>
     /// The id of the record
     /// </summary>
     [CborProperty("id")]
     [CborIgnoreIfDefault]
-    public RecordId? Id { get; set; }
+    public T? Id { get; set; }
 }

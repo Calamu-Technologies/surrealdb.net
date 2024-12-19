@@ -271,7 +271,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     }
 
     public async Task<T> Create<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot create a record without an Id");
@@ -308,7 +308,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TData? data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         var dbResponse = await SendRequestAsync(
                 "create",
@@ -466,7 +466,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         IEnumerable<T> data,
         CancellationToken cancellationToken
     )
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         var dbResponse = await SendRequestAsync(
                 "insert",
@@ -480,7 +480,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     }
 
     public async Task<T> InsertRelation<T>(T data, CancellationToken cancellationToken)
-        where T : RelationRecord
+        where T : RelationRecord<RecordId>
     {
         if (_version?.Major < 2)
             throw new NotImplementedException();
@@ -504,7 +504,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         T data,
         CancellationToken cancellationToken
     )
-        where T : RelationRecord
+        where T : RelationRecord<RecordId>
     {
         if (_version?.Major < 2)
             throw new NotImplementedException();
@@ -619,7 +619,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TMerge data,
         CancellationToken cancellationToken
     )
-        where TMerge : IRecord
+        where TMerge : IRecord<RecordId>
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot create a record without an Id");
@@ -1097,7 +1097,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     }
 
     public async Task<T> Update<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         if (_version?.Major < 2)
             throw new NotImplementedException();
@@ -1120,7 +1120,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         if (_version?.Major < 2)
             throw new NotImplementedException();
@@ -1157,7 +1157,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         if (_version?.Major < 2)
             throw new NotImplementedException();
@@ -1173,7 +1173,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     }
 
     public async Task<T> Upsert<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord
+        where T : IRecord<RecordId>
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot upsert a record without an Id");
@@ -1194,7 +1194,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(
@@ -1230,7 +1230,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord
+        where TOutput : IRecord<RecordId>
     {
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(

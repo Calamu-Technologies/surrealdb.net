@@ -5,7 +5,8 @@ namespace SurrealDb.Net.Models;
 /// <summary>
 /// The base relation record type.
 /// </summary>
-public abstract class RelationRecord : Record
+public abstract class RelationRecord<T> : Record<T>
+    where T : RecordId
 {
     /// <summary>
     /// The id of the record the relation starts from

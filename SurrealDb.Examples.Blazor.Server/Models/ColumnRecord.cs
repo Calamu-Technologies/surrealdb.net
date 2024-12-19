@@ -3,7 +3,7 @@ using SurrealDb.Net.Models;
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class ColumnRecord : Record
+public class ColumnRecord : Record<RecordId>
 {
     internal const string Table = "column";
 
