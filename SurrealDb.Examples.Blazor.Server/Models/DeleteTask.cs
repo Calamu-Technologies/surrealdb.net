@@ -2,7 +2,7 @@
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class DeleteTask : Record<RecordId>
+public class DeleteTask : Record
 {
     internal const string Table = "delete_task";
 

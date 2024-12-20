@@ -2,7 +2,7 @@
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class DisplayableColumn : Record<RecordId>
+public class DisplayableColumn : Record
 {
     internal const string Table = "displayable_column";
 

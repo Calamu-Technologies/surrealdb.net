@@ -1,8 +1,8 @@
-﻿using SurrealDb.Net.Models;
+using SurrealDb.Net.Models;
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class WeatherForecast : Record<RecordId>
+public class WeatherForecast : Record
 {
     internal const string Table = "weatherForecast";
 

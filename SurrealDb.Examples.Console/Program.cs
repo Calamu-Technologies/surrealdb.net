@@ -38,7 +38,7 @@ static string ToJsonString(object? o)
     return JsonSerializer.Serialize(o, new JsonSerializerOptions { WriteIndented = true, });
 }
 
-public class Person : Record<RecordId>
+public class Person : Record
 {
     public string? Title { get; set; }
     public Name? Name { get; set; }
@@ -51,7 +51,7 @@ public class Name
     public string? LastName { get; set; }
 }
 
-public class ResponsibilityMerge : Record<RecordId>
+public class ResponsibilityMerge : Record
 {
     public bool Marketing { get; set; }
 }
