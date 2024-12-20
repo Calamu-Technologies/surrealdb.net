@@ -2,7 +2,7 @@
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class CounterRecord : Record<RecordId>
+public class CounterRecord : Record
 {
     public int Value { get; set; }
 }

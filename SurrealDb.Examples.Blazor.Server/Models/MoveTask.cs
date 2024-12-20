@@ -2,7 +2,7 @@
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class MoveTask : Record<RecordId>
+public class MoveTask : Record
 {
     internal const string Table = "move_task";
 

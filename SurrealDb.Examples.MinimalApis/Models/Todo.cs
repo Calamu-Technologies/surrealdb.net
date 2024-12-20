@@ -2,7 +2,7 @@
 
 namespace SurrealDb.Examples.MinimalApis.Models;
 
-public class Todo : Record<RecordId>
+public class Todo : Record
 {
     internal const string Table = "todo";
 

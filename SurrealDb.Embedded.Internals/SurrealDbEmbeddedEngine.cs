@@ -155,7 +155,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
     }
 
     public async Task<T> Create<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord<RecordId>
+        where T : IRecord
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot create a record without an Id");
@@ -175,7 +175,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TData? data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord<RecordId>
+        where TOutput : IRecord
     {
         return await SendRequestAsync<TOutput>(Method.Create, [recordId, data], cancellationToken)
             .ConfigureAwait(false);
@@ -355,14 +355,14 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         IEnumerable<T> data,
         CancellationToken cancellationToken
     )
-        where T : IRecord<RecordId>
+        where T : IRecord
     {
         return await SendRequestAsync<List<T>>(Method.Insert, [table, data], cancellationToken)
             .ConfigureAwait(false);
     }
 
     public async Task<T> InsertRelation<T>(T data, CancellationToken cancellationToken)
-        where T : RelationRecord<RecordId>
+        where T : RelationRecord
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot create a relation record without an Id");
@@ -382,7 +382,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         T data,
         CancellationToken cancellationToken
     )
-        where T : RelationRecord<RecordId>
+        where T : RelationRecord
     {
         if (data.Id is not null)
             throw new SurrealDbException(
@@ -448,7 +448,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TMerge data,
         CancellationToken cancellationToken
     )
-        where TMerge : IRecord<RecordId>
+        where TMerge : IRecord
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot create a record without an Id");
@@ -715,7 +715,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
     }
 
     public async Task<T> Update<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord<RecordId>
+        where T : IRecord
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot update a record without an Id");
@@ -729,7 +729,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord<RecordId>
+        where TOutput : IRecord
     {
         return await SendRequestAsync<TOutput>(Method.Update, [recordId, data], cancellationToken)
             .ConfigureAwait(false);
@@ -740,7 +740,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord<RecordId>
+        where TOutput : IRecord
     {
         return await SendRequestAsync<TOutput>(Method.Update, [recordId, data], cancellationToken)
             .ConfigureAwait(false);
@@ -762,7 +762,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
     }
 
     public async Task<T> Upsert<T>(T data, CancellationToken cancellationToken)
-        where T : IRecord<RecordId>
+        where T : IRecord
     {
         if (data.Id is null)
             throw new SurrealDbException("Cannot upsert a record without an Id");
@@ -776,7 +776,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord<RecordId>
+        where TOutput : IRecord
     {
         return await SendRequestAsync<TOutput>(Method.Upsert, [recordId, data], cancellationToken)
             .ConfigureAwait(false);
@@ -802,7 +802,7 @@ internal sealed partial class SurrealDbEmbeddedEngine : ISurrealDbProviderEngine
         TData data,
         CancellationToken cancellationToken
     )
-        where TOutput : IRecord<RecordId>
+        where TOutput : IRecord
     {
         return await SendRequestAsync<TOutput>(Method.Upsert, [recordId, data], cancellationToken)
             .ConfigureAwait(false);

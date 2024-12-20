@@ -60,7 +60,7 @@ public static class SurrealDbMinimalApisExtensions
         string pattern,
         SurrealDbMinimalApisOptions? options = null
     )
-        where TEntity : Record<RecordId>
+        where TEntity : Record
     {
         return endpoints.MapSurrealEndpoints<TEntity, ISurrealDbClient>(pattern, options);
     }
@@ -114,7 +114,7 @@ public static class SurrealDbMinimalApisExtensions
         string pattern,
         SurrealDbMinimalApisOptions? options = null
     )
-        where TEntity : Record<RecordId>
+        where TEntity : Record
         where TDbClient : ISurrealDbClient
     {
         string entityName = typeof(TEntity).Name;
