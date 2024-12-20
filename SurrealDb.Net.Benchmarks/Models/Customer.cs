@@ -1,10 +1,10 @@
-using SurrealDb.Net.Models;
+﻿using SurrealDb.Net.Models;
 
 namespace SurrealDb.Net.Benchmarks.Models;
 
-public class Customer : Record
+public class Customer : Record<RecordId>
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public Thing? Address { get; set; }
+    public RecordId? Address { get; set; }
 }

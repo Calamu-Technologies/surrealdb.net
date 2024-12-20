@@ -1,4 +1,6 @@
+﻿using Microsoft.Extensions.DependencyInjection;
 using SurrealDb.Net.Internals.Auth;
+using SurrealDb.Net.Internals.Models;
 
 namespace SurrealDb.Net.Internals.Http;
 
@@ -10,6 +12,11 @@ internal class SurrealDbHttpEngineConfig
 
     private readonly Dictionary<string, object> _parameters = new();
     public IReadOnlyDictionary<string, object> Parameters => _parameters;
+
+    public SurrealDbHttpEngineConfig(SurrealDbOptions options)
+    {
+        Reset(options);
+    }
 
     public void Use(string ns, string? db)
     {
@@ -40,5 +47,24 @@ internal class SurrealDbHttpEngineConfig
     public void RemoveParam(string key)
     {
         _parameters.Remove(key);
+    }
+
+    public void Reset(SurrealDbOptions options)
+    {
+        _parameters.Clear();
+        Ns = options.Namespace;
+        Db = options.Database;
+        if (options.Username is not null)
+        {
+            SetBasicAuth(options.Username, options.Password);
+        }
+        else if (options.Token is not null)
+        {
+            SetBearerAuth(options.Token);
+        }
+        else
+        {
+            ResetAuth();
+        }
     }
 }

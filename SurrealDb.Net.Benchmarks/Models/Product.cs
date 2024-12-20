@@ -1,8 +1,8 @@
-using SurrealDb.Net.Models;
+﻿using SurrealDb.Net.Models;
 
 namespace SurrealDb.Net.Benchmarks.Models;
 
-public class Product : Record
+public class Product : Record<RecordId>
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

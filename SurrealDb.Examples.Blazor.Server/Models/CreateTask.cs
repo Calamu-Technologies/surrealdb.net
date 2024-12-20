@@ -2,11 +2,11 @@
 
 namespace SurrealDb.Examples.Blazor.Server.Models;
 
-public class CreateTask : Record
+public class CreateTask : Record<RecordId>
 {
     internal const string Table = "create_task";
 
     public string Title { get; set; } = string.Empty;
     public DateTime DueDate { get; set; }
-    public Thing Column { get; set; } = null!;
+    public RecordId Column { get; set; } = null!;
 }
