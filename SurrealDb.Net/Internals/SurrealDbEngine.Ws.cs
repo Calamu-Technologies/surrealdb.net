@@ -482,6 +482,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     public async Task<T> InsertRelation<T>(T data, CancellationToken cancellationToken)
         where T : RelationRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -506,6 +511,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where T : RelationRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -885,6 +895,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         CancellationToken cancellationToken
     )
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -1099,6 +1114,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     public async Task<T> Update<T>(T data, CancellationToken cancellationToken)
         where T : IRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -1122,6 +1142,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where TOutput : IRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -1159,6 +1184,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where TOutput : IRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         if (_version?.Major < 2)
             throw new NotImplementedException();
 
@@ -1178,6 +1208,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         if (data.Id is null)
             throw new SurrealDbException("Cannot upsert a record without an Id");
 
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(
                 method,
@@ -1196,6 +1231,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where TOutput : IRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(
                 method,
@@ -1214,6 +1254,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where T : class
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(
                 method,
@@ -1232,6 +1277,11 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     )
         where TOutput : IRecord
     {
+        if (_version is null)
+        {
+            await Version(SurrealDbWsRequestPriority.High, cancellationToken);
+        }
+
         string method = _version?.Major > 1 ? "upsert" : "update";
         var dbResponse = await SendRequestAsync(
                 method,
