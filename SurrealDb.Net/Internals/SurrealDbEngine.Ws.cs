@@ -1414,10 +1414,10 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
     {
         if (!_wsClient.IsStarted || (requireInitialized && !_isInitialized))
         {
+            await _semaphoreConnect.WaitAsync(cancellationToken).ConfigureAwait(false);
+
             try
             {
-                await _semaphoreConnect.WaitAsync(cancellationToken).ConfigureAwait(false);
-
                 if (!_wsClient.IsStarted)
                 {
                     await Connect(cancellationToken).ConfigureAwait(false);
