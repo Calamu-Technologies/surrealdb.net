@@ -1440,7 +1440,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         long executionStartTime = Stopwatch.GetTimestamp();
 
         var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-        cancellationToken.Register(timeoutCts.Cancel);
+        await using var registration = cancellationToken.Register(timeoutCts.Cancel);
 
         bool requireInitialized = priority == SurrealDbWsRequestPriority.Normal;
 
@@ -1459,7 +1459,7 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
         }
 
         var taskCompletionSource = new SurrealWsTaskCompletionSource(priority);
-        timeoutCts.Token.Register(() =>
+        await using var cancelRegistration = timeoutCts.Token.Register(() =>
         {
             taskCompletionSource.TrySetCanceled();
         });
