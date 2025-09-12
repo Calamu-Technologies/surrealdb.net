@@ -1456,7 +1456,10 @@ internal class SurrealDbWsEngine : ISurrealDbEngine
             throw;
         }
 
-        var taskCompletionSource = new SurrealWsTaskCompletionSource(priority);
+        var taskCompletionSource = new SurrealWsTaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously,
+            priority
+        );
 
         await using var cancelRegistration = timeoutCts.Token.Register(() =>
         {

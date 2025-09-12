@@ -4,7 +4,11 @@ internal class SurrealWsTaskCompletionSource : TaskCompletionSource<SurrealDbWsO
 {
     public SurrealDbWsRequestPriority Priority { get; }
 
-    public SurrealWsTaskCompletionSource(SurrealDbWsRequestPriority priority)
+    public SurrealWsTaskCompletionSource(
+        TaskCreationOptions options,
+        SurrealDbWsRequestPriority priority
+    )
+        : base(options)
     {
         Priority = priority;
     }
