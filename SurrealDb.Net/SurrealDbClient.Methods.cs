@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Numerics;
 using Dahomey.Cbor;
 using Semver;
 using SurrealDb.Net.Exceptions;
@@ -158,7 +159,17 @@ public abstract partial class BaseSurrealDbClient
         SurrealDbHttpEngine.SetNsDbHttpClientHeaders(httpClient, version, ns, db);
         SurrealDbHttpEngine.SetAuthHttpClientHeaders(httpClient, auth);
 
-        bool shouldUsePostRequest = version is { Major: >= 2, Minor: >= 1 };
+        bool shouldUsePostRequest = false;
+        if (version != null)
+        {
+            // Use BigInteger constants directly, since BigInteger.Two does not exist.
+            // Also, relational patterns cannot be used on nullable types.
+            var major = version.Major;
+            var minor = version.Minor;
+            shouldUsePostRequest =
+                major >= new System.Numerics.BigInteger(2)
+                && minor >= new System.Numerics.BigInteger(1);
+        }
 
         var httpRequestTask = shouldUsePostRequest
             ? httpClient.PostAsync(exportUri, httpContent, cancellationToken)

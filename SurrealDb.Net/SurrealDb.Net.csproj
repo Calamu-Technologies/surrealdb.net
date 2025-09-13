@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
-    <TargetFramework Condition="'$(PackTargetFramework)' != ''">$(PackTargetFramework)</TargetFramework>
-    
+    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">net8.0;net9.0</TargetFrameworks>
+    <TargetFramework Condition="'$(PackTargetFramework)' != ''"
+      >$(PackTargetFramework)</TargetFramework
+    >
     <IsPackable>true</IsPackable>
     <PackageId>SurrealDb.Net</PackageId>
     <Description>The official SurrealDB library for .NET</Description>
     <PackageTags>SurrealDB Surreal Database</PackageTags>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="ConcurrentHashSet" />
     <PackageReference Include="Microsoft.Extensions.Http" />
@@ -23,36 +22,36 @@
     <PackageReference Include="SystemTextJsonPatch" />
     <PackageReference Include="Websocket.Client" />
   </ItemGroup>
-
   <ItemGroup>
-	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-	  <_Parameter1>SurrealDb.Net.Tests</_Parameter1>
-	</AssemblyAttribute>
-	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-	  <_Parameter1>SurrealDb.Net.LiveQuery.Tests</_Parameter1>
-	</AssemblyAttribute>
-  <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>SurrealDb.Net.Tests.Fixtures</_Parameter1>
-  </AssemblyAttribute>
-	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-	  <_Parameter1>SurrealDb.Net.Benchmarks</_Parameter1>
-	</AssemblyAttribute>
-  <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>SurrealDb.Net.Benchmarks.Remote</_Parameter1>
-  </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Net.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Net.LiveQuery.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Net.Tests.Fixtures</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Net.Benchmarks</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Net.Benchmarks.Remote</_Parameter1>
+    </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>SurrealDb.Net.LocalBenchmarks</_Parameter1>
     </AssemblyAttribute>
-	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-	  <_Parameter1>SurrealDb.Reactive</_Parameter1>
-	</AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>SurrealDb.Reactive</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Condition="'$(ContinuousIntegrationBuild)' == ''" Include="..\..\Dahomey.Cbor\src\Dahomey.Cbor\Dahomey.Cbor.csproj" />
+    <ProjectReference
+      Condition="'$(ContinuousIntegrationBuild)' == ''"
+      Include="..\..\Dahomey.Cbor\src\Dahomey.Cbor\Dahomey.Cbor.csproj"
+    />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Condition="'$(ContinuousIntegrationBuild)' != ''" Include="Dahomey.Cbor" />
   </ItemGroup>
-  
 </Project>
