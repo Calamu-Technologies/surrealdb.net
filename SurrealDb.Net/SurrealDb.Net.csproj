@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">net9.0</TargetFrameworks>
     <TargetFramework Condition="'$(PackTargetFramework)' != ''"
       >$(PackTargetFramework)</TargetFramework
     >
