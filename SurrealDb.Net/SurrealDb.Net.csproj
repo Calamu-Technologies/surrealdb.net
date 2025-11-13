@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">net9.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(PackTargetFramework)' == ''">net10.0</TargetFrameworks>
     <TargetFramework Condition="'$(PackTargetFramework)' != ''"
       >$(PackTargetFramework)</TargetFramework
     >
+    <LangVersion>latest</LangVersion>
     <IsPackable>true</IsPackable>
     <PackageId>SurrealDb.Net</PackageId>
     <Description>The official SurrealDB library for .NET</Description>
@@ -18,7 +19,6 @@
     <PackageReference Include="Semver" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="System.Collections.Immutable" />
     <PackageReference Include="SystemTextJsonPatch" />
     <PackageReference Include="Websocket.Client" />
   </ItemGroup>
