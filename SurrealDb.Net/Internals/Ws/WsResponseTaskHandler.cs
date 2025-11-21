@@ -27,9 +27,10 @@ internal class WsResponseTaskHandler
     private readonly Dictionary<
         SurrealDbWsRequestPriority,
         TaskCompletionSource<bool>
-    > _queueSources = new(
-        [new(SurrealDbWsRequestPriority.High, new()), new(SurrealDbWsRequestPriority.Normal, new())]
-    );
+    > _queueSources = new([
+        new(SurrealDbWsRequestPriority.High, new()),
+        new(SurrealDbWsRequestPriority.Normal, new()),
+    ]);
 
     private SurrealDbWsRequestPriority? _currentPriority;
 
