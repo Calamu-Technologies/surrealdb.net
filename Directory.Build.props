@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	  <IsAotCompatible>false</IsAotCompatible>
-    
+    <IsAotCompatible>false</IsAotCompatible>
+
     <IsPackable>false</IsPackable>
-    <Version>0.7.0</Version>
+    <Version>0.7.1</Version>
     <Authors>surrealdb</Authors>
     <Company>SurrealDB</Company>
     <Copyright>Copyright © SurrealDB Ltd</Copyright>
@@ -31,16 +31,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	  <PackageReference Include="DotNet.ReproducibleBuilds">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
+    <PackageReference Include="DotNet.ReproducibleBuilds">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-	  <None Include="README.md" Pack="true" PackagePath="\" />
-	  <None Include="..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
-	  <None Include="..\img\icon.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\img\icon.png" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 
 </Project>
